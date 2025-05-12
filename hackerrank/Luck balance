@@ -1,1 +1,16 @@
-
+def luckBalance(k, contests):
+    # Write your code here
+    luck = []
+    result = 0
+    for (key,value) in contests:
+        if value:
+            luck.append(key)
+        else:
+            result += key
+    luck.sort(reverse=True)
+    for i in range(len(luck)):
+        if i<k:
+            result += luck[i]
+        else:
+            result -= luck[i]
+    return result

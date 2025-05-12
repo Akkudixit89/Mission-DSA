@@ -1,1 +1,9 @@
-
+def getMinimumCost(k, c):
+    flowers = len(c)
+    c.sort()
+    price = 0
+    for multiplier in range(1, flowers // k + 1):
+        for num in range(k):
+            price += multiplier * c.pop()
+    price += sum(c) * (flowers // k + 1)
+    return price

@@ -1,1 +1,82 @@
+def queensAttack(n, k, r_q, c_q, obstacles):
+    # Write your code here
+    attacks = 0
+    #up
+    same_col = [obs for obs in obstacles if obs[1] == c_q]
+    above_r = r_q + 1
+    up_attacks = 0
+    while above_r <= n and all(above_r < obs[0] for obs in same_col if obs[0] > r_q):
+        up_attacks += 1
+        above_r += 1
+    #print(f'above: {up_attacks}')#debugging
+    
+    #down
+    below_r = r_q - 1
+    down_attacks = 0
+    while below_r > 0 and all(below_r > obs[0] for obs in same_col if obs[0] < r_q):
+        down_attacks += 1
+        below_r -= 1
+    #print(f'below: {down_attacks}')#debugging
+    
+    #left
+    same_row = [obs for obs in obstacles if obs[0] == r_q]
+    left_c = c_q - 1
+    left_attacks = 0
+    while left_c > 0 and all(left_c > obs[1] for obs in same_row if obs[1] < c_q):
+        left_attacks += 1
+        left_c -= 1
+    #print(f'left: {left_attacks}')#debugging
+    
+    #right
+    right_c = c_q + 1
+    right_attacks = 0
+    while right_c <= n and all(right_c < obs[1] for obs in same_row if obs[1] > c_q):
+        right_attacks += 1
+        right_c += 1
+    #print(f'right: {right_attacks}')#debugging
+    
+    #diag up left
+    left_right_diag = [obs for obs in obstacles if obs[0] - r_q == c_q - obs[1]]
+    up_left_row = r_q + 1
+    up_left_col = c_q - 1
+    up_left_attacks = 0
+    while up_left_row <= n and up_left_col > 0 and all(up_left_row < obs[0] and up_left_col > obs[1] for obs in left_right_diag if obs[0] > r_q and obs[1] < c_q):
+        up_left_attacks += 1
+        up_left_row += 1
+        up_left_col -= 1
+    #print(f'up left: {up_left_attacks}')#debugging
+    
+    #diag down right
+    down_right_row = r_q - 1
+    down_right_col = c_q + 1
+    down_right_attacks = 0
+    while down_right_row > 0 and down_right_col <= n and all(down_right_row > obs[0] and down_right_col < obs[1] for obs in left_right_diag if obs[0] < r_q and obs[1] > c_q):
+        down_right_attacks += 1
+        down_right_row -= 1
+        down_right_col += 1
+    #print(f'down right: {down_right_attacks}') #debugging
+    
+    #diag up right
+    right_left_diag = [obs for obs in obstacles if obs[0] - r_q == obs[1] - c_q]
+    up_right_row = r_q + 1
+    up_right_col = c_q + 1
+    up_right_attacks = 0
+    while up_right_row <= n and up_right_col <= n and all(up_right_row < obs[0] and up_right_col < obs[1] for obs in right_left_diag if obs[0] > r_q and obs[1] > c_q):
+        up_right_attacks += 1
+        up_right_row += 1
+        up_right_col += 1
+    #print(f'up right: {up_right_attacks}') #debugging
+    
+    #diag down left
+    down_left_row = r_q - 1
+    down_left_col = c_q - 1
+    down_left_attacks = 0
+    while down_left_row > 0 and down_left_col > 0 and all(down_left_row > obs[0] and down_left_col > obs[1] for obs in right_left_diag if obs[0] < r_q and obs[1] < c_q):
+        down_left_attacks += 1
+        down_left_row -= 1
+        down_left_col -= 1
+    #print(f'down left: {down_left_attacks}') #debugging
 
+    attacks = up_attacks + down_attacks + left_attacks + right_attacks + up_left_attacks + down_right_attacks + up_right_attacks + down_left_attacks
+    #print(attacks) #debugging
+    return attacks
